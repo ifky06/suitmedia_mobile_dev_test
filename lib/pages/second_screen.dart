@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suitmedia_mobile_dev_test/Theme/custom_theme.dart';
+import 'package:suitmedia_mobile_dev_test/bloc/user/user_bloc.dart';
 import 'package:suitmedia_mobile_dev_test/components/app_bar.dart';
 import 'package:suitmedia_mobile_dev_test/components/elevated_button.dart';
 import 'package:suitmedia_mobile_dev_test/pages/third_screen.dart';
@@ -13,7 +15,7 @@ class SecondScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ThirdScreen(),
+        builder: (context) => const ThirdScreen(),
       ),
     );
   }
@@ -49,12 +51,20 @@ class SecondScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              'This is second screen',
-              style: GoogleFonts.poppins(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                String? fullName;
+                if (state is UserLoaded) {
+                  fullName = '${state.user.firstName} ${state.user.lastName}';
+                }
+                return Text(
+                  fullName ?? 'No User Selected',
+                  style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+              },
             ),
             MyElevatedButton(
               titleText: 'Chose a User',
