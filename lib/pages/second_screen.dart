@@ -3,10 +3,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:suitmedia_mobile_dev_test/Theme/custom_theme.dart';
 import 'package:suitmedia_mobile_dev_test/components/app_bar.dart';
 import 'package:suitmedia_mobile_dev_test/components/elevated_button.dart';
+import 'package:suitmedia_mobile_dev_test/pages/third_screen.dart';
 
 class SecondScreen extends StatelessWidget {
   final String name;
   const SecondScreen({super.key, required this.name});
+
+  void _handleChooseUserButton(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ThirdScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +58,9 @@ class SecondScreen extends StatelessWidget {
             ),
             MyElevatedButton(
               titleText: 'Chose a User',
-              onPressed: (() {}),
+              onPressed: (() {
+                _handleChooseUserButton(context);
+              }),
             )
           ],
         ),
