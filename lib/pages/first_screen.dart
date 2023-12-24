@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suitmedia_mobile_dev_test/Theme/custom_theme.dart';
 import 'package:suitmedia_mobile_dev_test/components/elevated_button.dart';
 import 'package:suitmedia_mobile_dev_test/components/text_field.dart';
-import 'package:suitmedia_mobile_dev_test/pages/second_page.dart';
+import 'package:suitmedia_mobile_dev_test/pages/second_screen.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -55,7 +55,7 @@ class _FirstScreenState extends State<FirstScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SecondPage(name: name),
+          builder: (context) => SecondScreen(name: name),
         ),
       );
     }
@@ -63,7 +63,6 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
           constraints: const BoxConstraints.expand(),
