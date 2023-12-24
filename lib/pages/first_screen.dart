@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:suitmedia_mobile_dev_test/Theme/custom_theme.dart';
+import 'package:suitmedia_mobile_dev_test/components/elevated_button.dart';
+import 'package:suitmedia_mobile_dev_test/components/text_field.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
 
+  void _checkPalindrome(BuildContext context, String palindrome) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    final isPalindrome = palindrome == palindrome.split('').reversed.join();
+
+    if (palindrome.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Palindrome cannot be empty'),
+        ),
+      );
+      return;
+    }
+    if (isPalindrome) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Palindrome'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Not palindrome'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String name = '';
+    String palindrome = '';
+
     return Scaffold(
       body: Container(
           constraints: const BoxConstraints.expand(),
@@ -23,90 +56,27 @@ class FirstScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/image/ic_photo.png'),
                 const SizedBox(height: 55),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Name',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                MyTextField(
+                  hintText: 'Name',
+                  onChanged: (value) {
+                    name = value;
+                  },
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Palindrome',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                MyTextField(
+                  hintText: 'Palindrome',
+                  onChanged: (value) {
+                    palindrome = value;
+                  },
                 ),
-                SizedBox(height: 25),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomTheme.darkBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: const Text(
-                      'CHECK',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomTheme.darkBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: const Text(
-                      'CHECK',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
+                const SizedBox(height: 25),
+                MyElevatedButton(
+                    titleText: 'CHECK',
+                    onPressed: () {
+                      _checkPalindrome(context, palindrome);
+                    }),
+                MyElevatedButton(
+                  titleText: 'NEXT',
+                  onPressed: () {},
                 ),
               ],
             ),
