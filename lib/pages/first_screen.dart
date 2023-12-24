@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:suitmedia_mobile_dev_test/Theme/custom_theme.dart';
 import 'package:suitmedia_mobile_dev_test/components/elevated_button.dart';
 import 'package:suitmedia_mobile_dev_test/components/text_field.dart';
+import 'package:suitmedia_mobile_dev_test/pages/second_page.dart';
 
-class FirstScreen extends StatelessWidget {
+class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
+
+  @override
+  State<FirstScreen> createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController palindromeController = TextEditingController();
 
   void _checkPalindrome(BuildContext context, String palindrome) {
     ScaffoldMessenger.of(context).clearSnackBars();
 
-    final isPalindrome = palindrome == palindrome.split('').reversed.join();
+    final isPalindrome = palindrome.replaceAll(' ', '').toLowerCase() ==
+        palindrome.split('').reversed.join().replaceAll(' ', '').toLowerCase();
 
     if (palindrome.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -34,10 +44,25 @@ class FirstScreen extends StatelessWidget {
     }
   }
 
+  void _handleNextButton(BuildContext context, String name) {
+    if (name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Name cannot be empty'),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SecondPage(name: name),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    String name = '';
-    String palindrome = '';
 
     return Scaffold(
       body: Container(
@@ -58,26 +83,23 @@ class FirstScreen extends StatelessWidget {
                 const SizedBox(height: 55),
                 MyTextField(
                   hintText: 'Name',
-                  onChanged: (value) {
-                    name = value;
-                  },
+                  textController: nameController,
                 ),
                 MyTextField(
                   hintText: 'Palindrome',
-                  onChanged: (value) {
-                    palindrome = value;
-                  },
+                  textController: palindromeController,
                 ),
                 const SizedBox(height: 25),
                 MyElevatedButton(
                     titleText: 'CHECK',
                     onPressed: () {
-                      _checkPalindrome(context, palindrome);
+                      _checkPalindrome(context, palindromeController.text);
                     }),
                 MyElevatedButton(
-                  titleText: 'NEXT',
-                  onPressed: () {},
-                ),
+                    titleText: 'NEXT',
+                    onPressed: () {
+                      _handleNextButton(context, nameController.text);
+                    }),
               ],
             ),
           )),

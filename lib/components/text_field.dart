@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyTextField extends StatelessWidget {
-  final String initialValue;
   final String hintText;
-  final void Function(String)? onChanged;
+  final TextEditingController? textController;
 
   const MyTextField({
     super.key,
-    this.initialValue = '',
     required this.hintText,
-    this.onChanged,
+    this.textController,
   });
 
   @override
@@ -21,11 +20,14 @@ class MyTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: TextFormField(
-        onChanged: onChanged,
-        initialValue: initialValue,
+        controller: textController,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.grey),
+          hintStyle: GoogleFonts.poppins(
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
